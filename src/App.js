@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataRepo, fetchDataUsers } from './app/dslice';
+import FinderLogo from './asset/finder-actors.png';
 import './index.css';
-import {Container, Row, Col, Card, CardHeader, CardBody, CardTitle, CardText, Button, Input } from 'reactstrap';
-
+import { Container, Row, Col, Card, CardHeader, CardBody, 
+        CardTitle, CardText, Button, Input, InputGroup, 
+        InputGroupText, Badge }         from 'reactstrap';
+import { FontAwesomeIcon }              from '@fortawesome/react-fontawesome'
+import { faSearch, faLocationDot, 
+        faUser }                        from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   const [users, setUsers] = useState("");
@@ -20,26 +25,33 @@ function App() {
   
   return (
     <div>
-        <Container fluid>
+        <Container>
             <Container>
-            <Col className="mb-5">
-                <h3 className="text-center mb-3">Github Account Finder</h3>
-                <Input type="text" className="input-search" onChange={e => setUsers(e.target?.value)} value={users} placeholder="Search here..."/>
+            <Col md="6" className="mb-5 mx-auto my-5">
+                <h3 className="text-center mb-2">Github Account Finder</h3>
+                <footer class="blockquote-footer text-center ">by Bimo Putra Nugraha</footer>
+                <center><img src={FinderLogo} alt="finder-pict" width="400px"/></center>
+                <InputGroup className="input-search">
+                    <Input type="text" className="input-search" onChange={e => setUsers(e.target?.value)} value={users} placeholder="Search here..."/>
+                    <InputGroupText>
+                        <FontAwesomeIcon icon={faSearch}/>
+                    </InputGroupText>
+                </InputGroup>
             </Col>
             <Col>
                 {load ? (
-                    <h1 class="text-center">Loading</h1>
+                    <h1 class="text-center">Load Data....</h1>
                 ) : error ? (
                     <h1 class="text-center">{error?.message}</h1>
                 ) : (
                 <Row>
                     <Col>
-                        <Card body className="mb-4">
+                        <Card body className="mb-4 side-left-top">
                             <Col>
                                 <Row>
                                     <Col md="4">
-                                        <Card className="h-100 text-center mx-auto">
-                                            <img src={profile?.avatar_url} alt="userphoto"/>
+                                        <Card className="h-100 text-center mx-auto my-auto border-0">
+                                            <img src={profile?.avatar_url} alt="userphoto" className="my-auto rounded-circle"/>
                                         </Card>
                                     </Col>
                                     <Col>
@@ -47,11 +59,14 @@ function App() {
                                             {profile?.name}
                                         </CardTitle>
                                         <CardText className="mb-0">
-                                            {profile?.login}
+                                            <FontAwesomeIcon icon={faUser} />
+                                            <span> {profile?.login}</span>
                                         </CardText>
                                         <CardText>
-                                            <i>{profile?.location}</i>
+                                            <FontAwesomeIcon icon={faLocationDot} />
+                                            <span className="text-italic"> {profile?.location}</span>
                                         </CardText>
+                                        <hr/>
                                         <CardText className="text-justify">
                                             {profile?.bio}
                                         </CardText>
@@ -63,7 +78,7 @@ function App() {
                             </Col>
                         </Card>
                     
-                        <Card className="h-25">
+                        <Card className="h-25 mb-4 side-left-bottom">
                             <CardHeader>
                                 <CardTitle tag="h4" className="my-auto">
                                     List of Repository
@@ -75,24 +90,25 @@ function App() {
                                         <p>
                                             {reposit?.name}
                                         </p>
+                                        <hr/>
                                     </div>
                                 ))}
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col md="3">
-                        <Card body className="text-center">
-                            <CardText>The portofolio</CardText>
-                            <CardText>{profile?.followers}</CardText>
-                            <CardTitle tag="h5">
+                    <Col md="3" className="mb-5">
+                        <Card className="text-center side-right">
+                            <CardHeader tag="h4" className="mb-4">The Summary</CardHeader>
+                            <CardText className="mb-0"><Badge color="success" className="p-2">{profile?.followers}</Badge></CardText>
+                            <CardTitle tag="h5" className="mb-5">
                                 Followers
                             </CardTitle>
-                            <CardText>{profile?.following}</CardText>
-                            <CardTitle tag="h5">
+                            <CardText className="mb-0"><Badge color="success" className="p-2">{profile?.following}</Badge></CardText>
+                            <CardTitle tag="h5" className="mb-5">
                                 Following
                             </CardTitle>
-                            <CardText>{profile?.public_repos}</CardText>
-                            <CardTitle tag="h5">
+                            <CardText className="mb-0"><Badge color="success" className="p-2">{profile?.public_repos}</Badge></CardText>
+                            <CardTitle tag="h5" className="mb-5">
                                 Repo Public
                             </CardTitle>
                         </Card>
