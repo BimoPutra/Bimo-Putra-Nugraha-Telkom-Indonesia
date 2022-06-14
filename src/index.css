@@ -1,0 +1,16 @@
+body,
+html {
+    height: 100%;
+}
+
+.container-bg {
+    background-image: url("./asset/background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+.input-search input[type=text] {
+    border-radius: 30px;
+}
